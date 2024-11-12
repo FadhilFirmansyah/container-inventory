@@ -20,7 +20,7 @@ class AmbangBatas extends BaseWidget
                 TextColumn::make('quantity')->label('Stock'),
                 TextColumn::make('price')
                     ->label('Price')
-                    ->formatStateUsing(fn($state) => 'Rp. ' . number_format($state, 2)),
+                    ->formatStateUsing(fn($state) => '$ ' . number_format($state, 2)),
             ])
             ->emptyStateHeading('Stok Barang Tidak Ada Yang Di Bawah 5');
     }

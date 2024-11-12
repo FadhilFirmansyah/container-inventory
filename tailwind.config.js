@@ -4,6 +4,7 @@ export default {
     "./resources/**/*.blade.php",
     "./resources/**/*.js",
     "./resources/**/*.vue",
+    './resources/**/*.jsx',
   ],
   daisyui: {
     themes: ["light", "dark", "cupcake"],

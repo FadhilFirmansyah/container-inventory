@@ -15,11 +15,11 @@ docker-compose exec app chmod -R 777 /var/www/html/storage /var/www/html/bootstr
 
 # Menjalankan perintah untuk menginstal dependensi JavaScript dengan npm
 echo "Menjalankan installasi frontend......"
-docker exec laravel_app npm i
+docker exec laravel_app npm i > /dev/null 2>&1
 
 # Membangun aset frontend dengan npm run build
 echo "Membangun aset frontend......"
-docker exec laravel_app npm run build
+docker exec laravel_app npm run > build /dev/null 2>&1
 
 # Menginstal dependensi PHP dengan Composer
 echo "Menginstal dependensi backend......"
@@ -49,4 +49,11 @@ fi
 echo "Pembuatan database untuk aplikasi......"
 docker exec laravel_app php artisan migrate --seed > /dev/null 2>&1
 
-echo "Setup selesai!"
+echo
+echo
+
+echo "SETUP TELAH SELESAI"
+docker ps 
+
+echo
+echo "Silahkan untuk dapat mengakses Manajemen Inventory Application - http://127.0.0.1:80"

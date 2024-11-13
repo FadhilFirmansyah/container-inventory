@@ -19,7 +19,7 @@ docker exec laravel_app npm i > /dev/null 2>&1
 
 # Membangun aset frontend dengan npm run build
 echo "Membangun aset frontend......"
-docker exec laravel_app npm run > build /dev/null 2>&1
+docker exec laravel_app npm run build > /dev/null 2>&1
 
 # Menginstal dependensi PHP dengan Composer
 echo "Menginstal dependensi backend......"

@@ -37,11 +37,11 @@ docker exec laravel_app php artisan key:generate > /dev/null 2>&1
 echo "Konfigurasi .env untuk container......"
 if [ "$OS_TYPE" == "Darwin" ]; then
   # macOS
-  sed -i '' 's/^DB_HOST=.*$/DB_HOST=db/' $ENV_FILE
+  sed -i '' 's/^DB_HOST=.*$/DB_HOST=mysql_db/' $ENV_FILE
   sed -i '' 's/^DB_PASSWORD=.*$/DB_PASSWORD=root/' $ENV_FILE
 else
   # Linux
-  sed -i 's/^DB_HOST=.*$/DB_HOST=db/' $ENV_FILE
+  sed -i 's/^DB_HOST=.*$/DB_HOST=mysql_db/' $ENV_FILE
   sed -i 's/^DB_PASSWORD=.*$/DB_PASSWORD=root/' $ENV_FILE
 fi
 
@@ -55,5 +55,12 @@ echo
 echo "SETUP TELAH SELESAI"
 docker ps 
 
+echo
+echo
+
+echo "Admin Credential"
+echo "Username = admin"
+echo "Email = admin@gmail.com"
+echo "Password = sudo"
 echo
 echo "Silahkan untuk dapat mengakses Manajemen Inventory Application - http://127.0.0.1:80"

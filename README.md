@@ -114,9 +114,8 @@ Migrasi database untuk memperbarui struktur tabel dan mengisi data awal (seeding
 #### Credential Login
 ```
 Username : admin
-Email : admin@gmail.com
+Email    : admin@gmail.com
 Password : sudo
-
 ```
 
 ## TROUBLESHOOT
@@ -136,7 +135,7 @@ DB_PASSWORD=root
 ```
 
 lalu menambahkan config berikut di `docker-compose.yml` 
-```
+```yml
 app:
     build:
       context: .
@@ -147,7 +146,7 @@ app:
     volumes:
       - ./inventory-project:/var/www/html
     depends_on:
-      - db    # Add this to ensure database starts first
+      - db
     networks:
       - app-network
 
@@ -158,20 +157,17 @@ app:
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: inventory
-      # Remove MYSQL_USER and MYSQL_PASSWORD since we're using root
     ports:
       - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
-    healthcheck:   # Add healthcheck
+    healthcheck:   # Adding healthcheck for monitoring (Optional)
       test: ["CMD", "mysqladmin", "ping", "-proot"]
       interval: 10s
       timeout: 5s
       retries: 5
     networks:
       - app-network
-
-
 ```
 Lalu jalankan ulang migrate seed nya , maka akan bisa menjalankannya
 

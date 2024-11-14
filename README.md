@@ -119,6 +119,62 @@ Password : sudo
 
 ```
 
+## TROUBLESHOOT
+Menemui masalah berupa tidak bisa menjalankan perintah
+```
+docker exec laravel_app php artisan migrate --seed
+```
+
+Hal ini terjadi karena  Kredensial database dalam konfigurasi container MySQL tidak benar. Mencoba membuat user root dengan MYSQL_USER yang tidak diizinkan - user root sudah dibuat secara otomatis dengan MYSQL_ROOT_PASSWORD, maka langkah yang perlu dilakukan adalah merubah `.env` nya menjadi berikut
+```.env
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=inventory
+DB_USERNAME=root
+DB_PASSWORD=root
+```
+
+lalu menambahkan config berikut di `docker-compose.yml` 
+```
+app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: laravel_app
+    restart: always
+    working_dir: /var/www/html
+    volumes:
+      - ./inventory-project:/var/www/html
+    depends_on:
+      - db    # Add this to ensure database starts first
+    networks:
+      - app-network
+
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: inventory
+      # Remove MYSQL_USER and MYSQL_PASSWORD since we're using root
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:   # Add healthcheck
+      test: ["CMD", "mysqladmin", "ping", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app-network
+
+
+```
+Lalu jalankan ulang migrate seed nya , maka akan bisa menjalankannya
+
 ## Arsitektur Aplikasi
 - **docker-compose.yml** - Konfigurasi yang digunakan oleh Docker Compose untuk mendefinisikan dan menjalankan multi-container Docker aplikasi, termasuk pengaturan layanan, jaringan, volume, dan penghubung antar container
 - **Dockerfile** - File teks yang berisi serangkaian instruksi untuk membangun image Docker, termasuk pengaturan sistem, instalasi aplikasi, dan konfigurasi yang diperlukan

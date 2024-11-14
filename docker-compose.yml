@@ -2,7 +2,9 @@ version: '3.8'
 
 services:
   app:
-    image: php:8.1-fpm
+    build:
+      context: .
+      dockerfile: Dockerfile
     container_name: laravel_app
     restart: always
     working_dir: /var/www/html
@@ -10,33 +12,25 @@ services:
       - ./inventory-project:/var/www/html
     networks:
       - app-network
-    depends_on:
-      - db
-    environment:
-      - DB_HOST=db
-      - DB_PORT=3306
-      - DB_DATABASE=inventory_db
-      - DB_USERNAME=root
-      - DB_PASSWORD=password
 
   db:
     image: mysql:8.0
     container_name: mysql_db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: inventory_db
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: inventory
       MYSQL_USER: root
-      MYSQL_PASSWORD: password
+      MYSQL_PASSWORD: root
     ports:
-      - "3306:3306"
+      - "3307:3306"
     volumes:
       - db_data:/var/lib/mysql
     networks:
       - app-network
 
   nginx:
-    image: nginx:latest
+    image: nginx:stable-alpine
     container_name: nginx_server
     restart: always
     ports:

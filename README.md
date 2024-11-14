@@ -128,7 +128,7 @@ docker exec laravel_app php artisan migrate --seed
 Hal ini terjadi karena  Kredensial database dalam konfigurasi container MySQL tidak benar. Mencoba membuat user root dengan MYSQL_USER yang tidak diizinkan - user root sudah dibuat secara otomatis dengan MYSQL_ROOT_PASSWORD, maka langkah yang perlu dilakukan adalah merubah `.env` nya menjadi berikut
 ```.env
 DB_CONNECTION=mysql
-DB_HOST=db
+DB_HOST=mysql_db
 DB_PORT=3306
 DB_DATABASE=inventory
 DB_USERNAME=root
